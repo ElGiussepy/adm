@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Datos Personal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-table"></i> Tabla de Datos Personal</h1>
+            <div class="header-controls">
+                <button id="btn-agregar" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Agregar Registro
+                </button>
+                <button id="btn-exportar" class="btn btn-success">
+                    <i class="fas fa-file-export"></i> Exportar CSV
+                </button>
+            </div>
+        </header>
+
+        <!-- Modal para agregar registros -->
+        <div id="modal-agregar" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h2>Agregar Nuevo Registro</h2>
+                <form id="form-agregar">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="marca">Marca:</label>
+                            <input type="text" id="marca" name="marca" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="zona">Zona:</label>
+                            <input type="text" id="zona" name="zona">
+                        </div>
+                        <div class="form-group">
+                            <label for="grupo">Grupo:</label>
+                            <input type="text" id="grupo" name="grupo">
+                        </div>
+                        <div class="form-group">
+                            <label for="cliente">Cliente:</label>
+                            <input type="text" id="cliente" name="cliente">
+                        </div>
+                        <div class="form-group">
+                            <label for="nombre">Nombre:</label>
+                            <input type="text" id="nombre" name="nombre">
+                        </div>
+                        <div class="form-group">
+                            <label for="direccion">Dirección:</label>
+                            <input type="text" id="direccion" name="direccion">
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono:</label>
+                            <input type="text" id="telefono" name="telefono">
+                        </div>
+                        <div class="form-group">
+                            <label for="pq">PQ:</label>
+                            <input type="text" id="pq" name="pq">
+                        </div>
+                        <div class="form-group">
+                            <label for="cj">CJ:</label>
+                            <input type="text" id="cj" name="cj">
+                        </div>
+                        <div class="form-group">
+                            <label for="costo">$$:</label>
+                            <input type="text" id="costo" name="costo">
+                        </div>
+                        <div class="form-group">
+                            <label for="dia">DIA:</label>
+                            <input type="text" id="dia" name="dia">
+                        </div>
+                        <div class="form-group">
+                            <label for="camion">CAMION:</label>
+                            <input type="text" id="camion" name="camion">
+                        </div>
+                        <div class="form-group">
+                            <label for="chofer">CHOFER:</label>
+                            <input type="text" id="chofer" name="chofer">
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">O:</label>
+                            <input type="text" id="estado" name="estado">
+                        </div>
+                        <div class="form-group">
+                            <label for="obs">Obs.:</label>
+                            <input type="text" id="obs" name="obs">
+                        </div>
+                        <div class="form-group">
+                            <label for="codigo">CODIGO:</label>
+                            <input type="text" id="codigo" name="codigo">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filtros">
+            <input type="text" id="buscador" placeholder="Buscar en todos los campos...">
+            <select id="filtro-campo">
+                <option value="all">Todos los campos</option>
+                <option value="Marca">Marca</option>
+                <option value="Zona">Zona</option>
+                <option value="Nombre">Nombre</option>
+                <option value="Cliente">Cliente</option>
+                <option value="DIA">DIA</option>
+            </select>
+        </div>
+
+        <!-- Tabla de datos -->
+        <div class="table-container">
+            <table id="tabla-datos">
+                <thead>
+                    <tr>
+                        <th>Marca</th>
+                        <th>Zona</th>
+                        <th>Grupo</th>
+                        <th>Cliente</th>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Telefono</th>
+                        <th>PQ</th>
+                        <th>CJ</th>
+                        <th>$$</th>
+                        <th>DIA</th>
+                        <th>CAMION</th>
+                        <th>CHOFER</th>
+                        <th>O</th>
+                        <th>Obs.</th>
+                        <th>CODIGO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in datos %}
+                    <tr>
+                        <td>{{ item.Marca }}</td>
+                        <td>{{ item.Zona }}</td>
+                        <td>{{ item.Grupo }}</td>
+                        <td>{{ item.Cliente }}</td>
+                        <td>{{ item.Nombre }}</td>
+                        <td>{{ item.Dirección }}</td>
+                        <td>{{ item.Telefono }}</td>
+                        <td>{{ item.PQ }}</td>
+                        <td>{{ item.CJ }}</td>
+                        <td>{{ item['$$'] }}</td>
+                        <td>{{ item.DIA }}</td>
+                        <td>{{ item.CAMION }}</td>
+                        <td>{{ item.CHOFER }}</td>
+                        <td>{{ item.O }}</td>
+                        <td>{{ item['Obs.'] }}</td>
+                        <td>{{ item.CODIGO }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>Total de registros: <span id="total-registros">{{ datos|length }}</span></p>
+        </footer>
+    </div>
+
+    <script>
+        // JavaScript para funcionalidades
+        document.addEventListener('DOMContentLoaded', function() {
+            // Modal functionality
+            const modal = document.getElementById('modal-agregar');
+            const btnAgregar = document.getElementById('btn-agregar');
+            const btnCancelar = document.getElementById('btn-cancelar');
+            const spanClose = document.getElementsByClassName('close')[0];
+            
+            btnAgregar.onclick = function() {
+                modal.style.display = 'block';
+            }
+            
+            spanClose.onclick = function() {
+                modal.style.display = 'none';
+            }
+            
+            btnCancelar.onclick = function() {
+                modal.style.display = 'none';
+            }
+            
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
+            
+            // Form submission
+            document.getElementById('form-agregar').onsubmit = function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                
+                fetch('/agregar', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Registro agregado exitosamente');
+                        modal.style.display = 'none';
+                        location.reload();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                });
+            };
+            
+            // Export functionality
+            document.getElementById('btn-exportar').onclick = function() {
+                fetch('/exportar')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Archivo exportado exitosamente');
+                        // En una implementación real, aquí podrías descargar el archivo
+                    } else {
+                        alert('Error al exportar: ' + data.message);
+                    }
+                });
+            };
+            
+            // Search functionality
+            document.getElementById('buscador').addEventListener('keyup', function() {
+                const filter = this.value.toLowerCase();
+                const filterField = document.getElementById('filtro-campo').value;
+                const rows = document.querySelectorAll('#tabla-datos tbody tr');
+                
+                rows.forEach(row => {
+                    let show = false;
+                    const cells = row.getElementsByTagName('td');
+                    
+                    if (filterField === 'all') {
+                        // Buscar en todas las celdas
+                        for (let cell of cells) {
+                            if (cell.textContent.toLowerCase().includes(filter)) {
+                                show = true;
+                                break;
+                            }
+                        }
+                    } else {
+                        // Buscar solo en la columna seleccionada
+                        const headers = document.querySelectorAll('#tabla-datos th');
+                        let columnIndex = -1;
+                        
+                        headers.forEach((header, index) => {
+                            if (header.textContent === filterField) {
+                                columnIndex = index;
+                            }
+                        });
+                        
+                        if (columnIndex !== -1 && cells[columnIndex]) {
+                            show = cells[columnIndex].textContent.toLowerCase().includes(filter);
+                        }
+                    }
+                    
+                    row.style.display = show ? '' : 'none';
+                });
+                
+                // Actualizar contador
+                const visibleRows = Array.from(rows).filter(row => row.style.display !== 'none');
+                document.getElementById('total-registros').textContent = visibleRows.length;
+            });
+        });
+    </script>
+</body>
+</html>
